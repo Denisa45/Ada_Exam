@@ -84,36 +84,50 @@ public class G_BST<K extends Comparable<K>, V> {
     }
 
     // Successor: find next bigger key after given key
-    private Node predecessor(Node root, K key) {
-        Node curr = root;
-        Node predecessor = null;
-
-        while (curr != null) {
-            int cmp = curr.key.compareTo(key);
-            if (cmp < 0) {
-                predecessor = curr;
-                curr = curr.right;
-            } else {
-                curr = curr.left;
+    private Node predecessor(Node root, K key){
+        int cmp=0;
+        Node ancestor=null;
+        while(root!=null){
+            cmp=root.key.compareTo(key);
+            if(cmp==0){
+                if(root.left!=null){
+                    root=root.left;
+                    while (root.right!=null){
+                        root=root.right;
+                    }
+                    return root;
+                }else return ancestor;
             }
+            if(cmp<0){
+                ancestor=root;
+                root=root.right;
+            }
+            else root=root.left;
         }
-        return predecessor;
+        return null;
     }
 
-    private Node successor(Node root, K key) {
-        Node curr = root;
-        Node successor = null;
-
-        while (curr != null) {
-            int cmp = curr.key.compareTo(key);
-            if (cmp > 0) {
-                successor = curr;
-                curr = curr.left;
-            } else {
-                curr = curr.right;
+    private Node successor(Node root, K key){
+        Node ancestor=null;int cmp=0;
+        while(root!=null){
+            cmp=root.key.compareTo(key);
+            if(cmp==0) {
+                if(root.right!=null){
+                    root=root.right;
+                    while(root.left!=null){
+                        root=root.left;
+                    }
+                    return root;
+                }return ancestor;
             }
+
+            if(cmp<0) {
+                ancestor=root;
+                root=root.right;
+            }
+            else root=root.left;
         }
-        return successor;
+        return null;
     }
 
     // Delete method
